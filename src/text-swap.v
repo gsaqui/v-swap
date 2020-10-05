@@ -1,7 +1,11 @@
 import os
+
+import cli { Command, Flag }
 import regex
 import net.http
 import json
+
+
 
 struct Is_Good {
 	errorcode     int
@@ -10,14 +14,19 @@ struct Is_Good {
 }
 
 fn main() {
+	
 
-	for {
-		
-		src := os.input('')
-		if src == 'exit' || src == '' {
-			break
-		}
-		lines := src.split_into_lines()
+	copy_data :=  os.exec('pbpaste') or {
+		panic(err)
+	}
+
+	//println(copy_data.output.split_into_lines())
+
+	lines := copy_data.output.split_into_lines()
+
+	for i := 0; i < lines.len; i++ {
+		src := lines[i]
+
 		new_str := src.replace('(', '[').replace(')', ']')
 		// query:= r".*\((.*)\)"
 		query := r'(.*)\[(.*)\]'
@@ -42,3 +51,4 @@ fn main() {
 		}
 	}
 }
+
